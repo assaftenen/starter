@@ -1,44 +1,48 @@
 <!doctype html>
 <html ng-app="app">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>Todo Client</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/libs/angular.js"></script>
-  </head>
-  <body>
-  <div class="todo" ng-controller="TodoController as todo">
-    <form ng-submit= "todo.addTodo();" class="todo__form">
-      <input type="text" placeholder="add new todo!" ng-model="todo.newTodo">
-    </form >
-   <ul class="todo__list">
-     <li ng-repeat="item in todo.list">
-       <input type="checkbox" id="todo-{{$index}}" ng-model="item.completed">
-       <label class="toggle" for="todo-{{$index}}"></label>
-       <p ng-dblclick="showEditField=true;" ng-hide="showEditField">
-         {{item.title}}
-       </p>
-         <div ng-show="showEditField">
-             <input type="text"
-          ng-model="item.title"
-             ng-blur="showEditField=false">
-         </div>
-         <a href="" ng-click="todo.removeTodo(item, $index);">
-         &#215;
-         </a>
-     </li>
-   </ul>
-      <p class="todo__remaining">
+</head>
+<body>
+<div class="todo" ng-controller="TodoController as todo">
+    <form ng-submit="todo.addTodo();" class="todo__form">
+        <input type="text" placeholder="add new todo!" ng-model="todo.newTodo">
+    </form>
+    <ul class="todo__list">
+        <li ng-repeat="item in todo.list">
+            <input type="checkbox"
+                   id="todo-{{$index}}"
+                   ng-model="item.completed"
+                   ng-change = "todo.toggleState(item);">
+            <label class="toggle" for="todo-{{$index}}"></label>
+            <p ng-dblclick="showEditField=true;" ng-hide="showEditField">
+                {{item.title}}
+            </p>
+            <div ng-show="showEditField">
+                <input type="text"
+                       ng-model="item.title"
+                       ng-blur="todo.updateTodo(item, $index);showEditField=false">
+            </div>
+            <a href="" ng-click="todo.removeTodo(item, $index);">
+                &#215;
+            </a>
+        </li>
+    </ul>
+    <p class="todo__remaining">
           <span ng-show="todo.getRemaining().length>0">
               you have {{todo.getRemaining().length}} of {{todo.list.length}} items!!!
           </span>
-          <span ng-show="todo.getRemaining().length==0">
+        <span ng-show="todo.getRemaining().length==0">
               You are supper productive!!!
           </span>
-      </p>
-  </div>
-    <script src="js/app.js"></script>
-  <script src="js/todo.controller.js"></script>
-  </body>
+    </p>
+</div>
+<script src="js/app.js"></script>
+<script src="js/todo.controller.js"></script>
+<script src="js/todo.service.js"></script>
+</body>
 </html>
